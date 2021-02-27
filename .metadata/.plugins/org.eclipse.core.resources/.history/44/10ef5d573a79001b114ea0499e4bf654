@@ -1,0 +1,8 @@
+package com.springcloud.microservice.currencyconversion;
+
+import org.springframework.cloud.openfeign.FeignClient;
+
+@FeignClient("currency-exchange")
+public interface CurrencyExchangeProxy {
+
+}

@@ -1,0 +1,36 @@
+package com.springcloud.microservice.currencyexchange;
+
+import java.math.BigDecimal;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.springcloud.microservice.currencyexchange.dao.CurrencyExchangeDao;
+
+@RestController
+public class CurrencyExchangeController {
+
+	@Autowired
+	Environment env;
+	
+	@Autowired
+	CurrencyExchangeDao dao;
+
+	@GetMapping("/currency-exchange/from/{source}/to/{dist}")
+	public CurrencyExchange getExhangeValue(@PathVariable String source,@PathVariable("dist") String dist) {
+		String environment = env.getProperty("local.server.port");
+		
+		CurrencyExchange currencyExchange =  new CurrencyExchange(source,dist,BigDecimal.valueOf(65.00));
+		currencyExchange.setEnvironment(environment);
+		
+		CurrencyExchange currencyExchange =  new CurrencyExchange(source,dist,BigDecimal.valueOf(65.00));
+		currencyExchange.setEnvironment(environment);
+		dao.saveExchangeTypes(currencyExchange);
+		return currencyExchange;		
+		
+	}
+
+}

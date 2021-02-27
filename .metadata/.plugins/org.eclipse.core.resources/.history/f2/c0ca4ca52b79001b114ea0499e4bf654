@@ -1,0 +1,31 @@
+package com.springcloud.microservice.currencyconversion;
+
+import java.math.BigDecimal;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+@RestController
+public class CurrencyConversionController {
+	
+	@Autowired
+	private HttpServletRequest req;
+	
+	@Autowired
+	RestTemplate rest;
+	
+	@GetMapping("/currency-conversion/from/{source}/to/{dist}")
+	public CurrencyConversion calculateCurrencyConversion(@PathVariable String source,@PathVariable String dist) {
+		
+		rest.getForEntity("http://localhost:8100/currency-conversion/from/USD/to/INR", CurrencyConversion.class)
+
+		BigDecimal quantity = new BigDecimal(req.getParameter("q"));
+		return new CurrencyConversion(1001L,source,dist,quantity,quantity,quantity,null);
+	}
+
+}

@@ -1,0 +1,21 @@
+package com.springcloud.microservice.currencyexchange;
+
+import java.math.BigDecimal;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class CurrencyExchangeController {
+	
+	@GetMapping("/currency-exchange/from/{source}/to/{dist}")
+	public CurrencyExchange getExhangeValue(@PathVariable String source,@PathVariable("dist") String dist) {
+		System.out.println("efr");
+		return new CurrencyExchange(1001L,source,dist,BigDecimal.valueOf(65.00));
+		
+		
+	}
+	
+
+}

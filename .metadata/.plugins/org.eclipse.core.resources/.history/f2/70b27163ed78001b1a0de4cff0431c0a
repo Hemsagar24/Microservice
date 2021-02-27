@@ -1,0 +1,25 @@
+package com.springcloud.microservice.currencyexchange;
+
+import java.math.BigDecimal;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.config.environment.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class CurrencyExchangeController {
+	
+	@Autowired
+	Environment env;
+	
+	@GetMapping("/currency-exchange/from/{source}/to/{dist}")
+	public CurrencyExchange getExhangeValue(@PathVariable String source,@PathVariable("dist") String dist) {
+		return new CurrencyExchange(1001L,source,dist,BigDecimal.valueOf(65.00));
+		
+		
+	}
+	
+
+}

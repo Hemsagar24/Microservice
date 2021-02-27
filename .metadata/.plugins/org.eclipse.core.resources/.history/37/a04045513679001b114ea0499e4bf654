@@ -1,0 +1,56 @@
+package com.springcloud.microservice.currencyconversion;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+@RestController
+public class CurrencyConversionController {
+
+	@Autowired
+	private HttpServletRequest req;
+
+	@Autowired
+	RestTemplate rest;
+
+	@Autowired
+	Environment env;
+	
+	@GetMapping("/currency-conversion/from/{sourc22}/to/{dist}")
+	public CurrencyConversion calculateCurrencyConversion(@PathVariable String sourc22, @PathVariable String dist) {
+
+		BigDecimal quantity = new BigDecimal(req.getParameter("q"));
+		HashMap<String, String> urivariables = new HashMap<String, String>();
+		urivariables.put("source", sourc22);
+		urivariables.put("dist", dist);
+		
+		rest.getForObject("http://localhost:8100/currency-conversion/from/{source}/to/{dist}", Object.class);
+		
+		ResponseEntity<CurrencyConversion> exchangeResponse = rest.getForEntity(
+				"http://localhost:8100/currency-conversion/from/{source}/to/{dist}", CurrencyConversion.class,
+				//http://localhost:8000/currency-exchange/from/USD/to/INR
+				urivariables);
+		CurrencyConversion c = exchangeResponse.getBody();
+		BigDecimal conversionValue = c.getConversionvalue();
+		BigDecimal calculatedConversionAmount = conversionValue.multiply(quantity) ;
+		
+
+		return new CurrencyConversion(1001L, sourc22, dist, quantity, conversionValue, calculatedConversionAmount, env.getProperty("server.port"));
+	}
+
+	@Bean
+	public RestTemplate getRestTemplate() {
+		return new RestTemplate();
+	}
+
+}

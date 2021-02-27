@@ -1,0 +1,28 @@
+package com.springcloud.microservice.currencyexchange.dao;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Id;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.stereotype.Repository;
+
+import com.springcloud.microservice.currencyexchange.CurrencyExchange;
+
+@Repository
+public class CurrencyExchangeDao {
+	
+	@PersistenceContext
+	EntityManager entity;
+	
+	public void saveExchangeTypes(CurrencyExchange object) {
+		entity.persist(object);
+
+	}
+	
+	public void findData(String from, String to) {
+		entity.find(CurrencyExchange.class, Id);
+
+	}
+	
+
+}

@@ -1,0 +1,30 @@
+package com.springcloud.microservice.currencyexchange;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+@Repository
+@Transactional
+public class CurrencyExchangeDao {
+	
+	@PersistenceContext
+	EntityManager entity;
+	
+	public void saveExchangeTypes(CurrencyExchange object) {
+		entity.persist(object);
+
+	}
+	
+	@Query(value = "from Currency")
+	public void findData(String from, String to) {
+		javax.persistence.Query q = entity.createNativeQuery("select * from CurrencyExchange where from="+from+" and to="+to);
+		
+		System.out.println(c.getFrom());
+	}
+	
+
+}
