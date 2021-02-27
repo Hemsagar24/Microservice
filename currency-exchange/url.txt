@@ -1,0 +1,7 @@
+currency-Exchange service:
+http://localhost:8000/currency-exchange/from/USD/to/INR
+
+currency-conversion service:
+http://localhost:8100/currency-conversion/from/USD/to/INR?q=100.001
+feignAPI
+http://localhost:8100/currency-conversion-feign/from/USD/to/INR?q=99900.001
