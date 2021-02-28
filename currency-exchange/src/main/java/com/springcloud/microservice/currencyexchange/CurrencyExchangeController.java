@@ -21,7 +21,7 @@ public class CurrencyExchangeController implements CommandLineRunner {
 	@GetMapping("/currency-exchange/from/{source}/to/{dist}")
 	public CurrencyExchange getExhangeValue(@PathVariable String source, @PathVariable("dist") String dist) {
 
-		return dao.findData("USD", "INR");
+		return dao.findData(source, dist);
 
 	}
 
